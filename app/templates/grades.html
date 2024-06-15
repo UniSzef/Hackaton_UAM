@@ -2,16 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Grades</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>Oceny</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='grade.css') }}">
 </head>
 <body>
-    <h1>Your Grades</h1>
-    <ul>
-        {% for grade in grades %}
-            <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('main.dashboard') }}">Back to Dashboard</a>
+    <div class="container">
+        <h1>Twoje Oceny</h1>
+        <div class="data-section">
+            <ul>
+                {% for grade in grades %}
+                    <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <a href="{{ url_for('main.dashboard') }}">Powrót do Dashboardu</a>
+    </div>
 </body>
 </html>

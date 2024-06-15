@@ -1,0 +1,65 @@
+/* dashboard.css */
+body {
+    background-color: lavender;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+h1 {
+    color: #4b0082;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.logout {
+    background-color: #4b0082;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.logout:hover {
+    background-color: #8a2be2;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+.button {
+    display: block;
+    margin: 20px auto;
+    text-decoration: none;
+    background-color: #4b0082;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 24px;
+    width: 200px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #8a2be2;
+}

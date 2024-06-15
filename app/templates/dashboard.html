@@ -3,16 +3,18 @@
 <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
 </head>
 <body>
+    <div class="header">
+        <a class="logout" href="{{ url_for('main.logout') }}">Logout</a>
+    </div>
     <div class="container">
-        <h1>Welcome, {{ current_user.username }}</h1>
-        <ul>
-            <li><a href="{{ url_for('main.grades') }}">Grades</a></li>
-            <li><a href="{{ url_for('main.schedule') }}">Schedule</a></li>
-            <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
-        </ul>
+        <h1>Witaj, {{ current_user.username }}</h1>
+        <div class="big-tile">
+            <a class="button" href="{{ url_for('main.grades') }}">Oceny</a>
+            <a class="button" href="{{ url_for('main.schedule') }}">Plan lekcji</a>
+        </div>
     </div>
 </body>
 </html>

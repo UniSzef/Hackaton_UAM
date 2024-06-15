@@ -6,10 +6,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-    <form action="{{ url_for('main.login') }}" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <div>
+            <h1>Witaj użytkowniku</h1>
+        </div>
+        <form action="{{ url_for('main.login') }}" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>

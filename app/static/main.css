@@ -32,14 +32,22 @@ a:hover {
     color: #8a2be2;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 input[type="text"],
@@ -63,31 +71,5 @@ button {
 }
 
 button:hover {
-    background-color: #8a2be2;
-}
-
-.container {
-    text-align: center;
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.container ul {
-    margin-top: 20px;
-}
-
-.container a {
-    display: inline-block;
-    margin-top: 20px;
-    text-decoration: none;
-    background-color: #4b0082;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-.container a:hover {
     background-color: #8a2be2;
 }
