@@ -17,7 +17,7 @@ def create_app():
     login.init_app(app)
 
     with app.app_context():
-        from app.models import User  # Importowanie modeli w kontekście aplikacji
+        from app.models import User, Topic, Post, Student, Teacher, Grade, Subject  # Import models
         from app.routes import bp as main_bp
         app.register_blueprint(main_bp)
 

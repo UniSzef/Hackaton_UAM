@@ -1,10 +1,8 @@
-<!doctype html>
-<html lang="pl">
-<head>
-    <meta charset="utf-8">
-    <title>Oceny</title>
-</head>
-<body>
+{% extends "dashboard.html" %}
+
+{% block title %}Oceny{% endblock %}
+
+{% block content %}
     <h1>Twoje Oceny</h1>
     <ul>
         {% for grade in grades %}
@@ -12,5 +10,4 @@
         {% endfor %}
     </ul>
     <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
-</body>
-</html>
+{% endblock %}

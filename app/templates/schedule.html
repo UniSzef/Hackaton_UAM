@@ -1,10 +1,8 @@
-<!doctype html>
-<html lang="pl">
-<head>
-    <meta charset="utf-8">
-    <title>Plan Lekcji</title>
-</head>
-<body>
+{% extends "dashboard.html" %}
+
+{% block title %}Plan Lekcji{% endblock %}
+
+{% block content %}
     <h1>Twój Plan Lekcji</h1>
     <ul>
         {% for day in schedule %}
@@ -17,5 +15,4 @@
         {% endfor %}
     </ul>
     <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
-</body>
-</html>
+{% endblock %}
