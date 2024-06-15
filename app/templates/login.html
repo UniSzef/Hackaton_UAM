@@ -1,20 +1,36 @@
-{% block content %}
-<h1>Login</h1>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.email.label }}<br>
-        {{ form.email(size=32) }}<br>
-        {{ form.email.errors }}
-    </p>
-    <p>
-        {{ form.password.label }}<br>
-        {{ form.password(size=32) }}<br>
-        {{ form.password.errors }}
-    </p>
-    <p>{{ form.submit() }}</p>
-</form>
-{% with messages = get_flashed_messages(with_categories=true) %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    {% block content %}
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo" class="logo">
+    </div>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.email.label }}<br>
+                {{ form.email(class="form-input", size=32) }}<br>
+                {{ form.email.errors if form.email.errors else "" }}
+            </div>
+            <div>
+                {{ form.password.label }}<br>
+                {{ form.password(class="form-input", size=32) }}<br>
+                {{ form.password.errors if form.password.errors else "" }}
+            </div>
+            <div>
+                {{ form.submit(class="button") }}
+            </div>
+        </form>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <script>
                 window.onload = function() {
@@ -25,4 +41,6 @@
             </script>
         {% endif %}
     {% endwith %}
-{% endblock %}
+    {% endblock %}
+</body>
+</html>

@@ -3,24 +3,28 @@
 <head>
     <meta charset="utf-8">
     <title>Pulpit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
 </head>
 <body>
-    <h1>Witaj, {{ current_user.username }}</h1>
-    <ul>
-        {% if current_user.role == 'student' %}
-            <li><a href="{{ url_for('main.grades') }}">Oceny</a></li>
-            <li><a href="{{ url_for('main.schedule') }}">Plan lekcji</a></li>
-        {% elif current_user.role == 'teacher' %}
-            <li><a href="{{ url_for('main.schedule') }}">Plan lekcji</a></li>
-        {% endif %}
-        <li><a href="{{ url_for('main.logout') }}">Wyloguj się</a></li>
-    </ul>
-    <a href="{{ url_for('main.topics') }}">Topics</a>
-    {% if current_user.is_authenticated %}
-        <a href="{{ url_for('main.logout') }}">Logout</a>
-    {% else %}
-        <a href="{{ url_for('main.login') }}">Login</a>
-    {% endif %}
+    <header class="header">
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+            <span class="title">MIB UAM</span>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <h1>Witaj, {{ current_user.username }}</h1>
+        <div class="panels">
+            {% if current_user.role == 'student' %}
+                <div><a href="{{ url_for('main.grades') }}" class="button">Oceny</a></div>
+                <div><a href="{{ url_for('main.schedule') }}" class="button">Plan lekcji</a></div>
+            {% elif current_user.role == 'teacher' %}
+                <div><a href="{{ url_for('main.schedule') }}" class="button">Plan lekcji</a></div>
+            {% endif %}
+            <div><a href="{{ url_for('main.topics') }}" class="button">Forum</a></div>
+        </div>
+    </div>
     {% block content %}{% endblock %}
 </body>
 </html>
