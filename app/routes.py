@@ -21,7 +21,7 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user is None or not check_password_hash(user.password, password):
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'error')
             return redirect(url_for('main.login'))
         login_user(user)
         return redirect(url_for('main.dashboard'))
