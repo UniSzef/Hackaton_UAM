@@ -1,15 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
-    <title>Dashboard</title>
+    <title>Pulpit</title>
 </head>
 <body>
-    <h1>Welcome, {{ current_user.username }}</h1>
+    <h1>Witaj, {{ current_user.username }}</h1>
     <ul>
-        <li><a href="{{ url_for('main.grades') }}">Grades</a></li>
-        <li><a href="{{ url_for('main.schedule') }}">Schedule</a></li>
-        <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+        {% if current_user.role == 'student' %}
+            <li><a href="{{ url_for('main.grades') }}">Oceny</a></li>
+            <li><a href="{{ url_for('main.schedule') }}">Plan lekcji</a></li>
+        {% elif current_user.role == 'teacher' %}
+            <li><a href="{{ url_for('main.schedule') }}">Plan lekcji</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('main.logout') }}">Wyloguj się</a></li>
     </ul>
 </body>
 </html>

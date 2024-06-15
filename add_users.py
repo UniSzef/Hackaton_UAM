@@ -1,29 +1,43 @@
 from app import create_app, db
-from app.models import User, Student, Teacher
+from app.models import User, Student, Teacher, Subject, Grade
 from werkzeug.security import generate_password_hash
 
 app = create_app()
 
 with app.app_context():
     # Usunięcie wszystkich użytkowników
+    db.session.query(Grade).delete()
+    db.session.query(Subject).delete()
     db.session.query(Teacher).delete()
     db.session.query(Student).delete()
     db.session.query(User).delete()
     db.session.commit()
 
     # Tworzenie nauczycieli
-    teacher1 = User(username='teacher1', password=generate_password_hash('teacher1pass'), role='teacher')
-    teacher2 = User(username='teacher2', password=generate_password_hash('teacher2pass'), role='teacher')
+    teacher1 = User(username='teacher1', password=generate_password_hash('1'), role='teacher')
+    teacher2 = User(username='teacher2', password=generate_password_hash('2'), role='teacher')
 
     db.session.add(teacher1)
     db.session.add(teacher2)
     db.session.commit()
 
-    t1 = Teacher(user_id=teacher1.id, first_name='John', last_name='Doe', is_homeroom=True)
-    t2 = Teacher(user_id=teacher2.id, first_name='Jane', last_name='Smith', is_homeroom=False)
+    t1 = Teacher(user_id=teacher1.id, first_name='Jan', last_name='Kowalski', is_homeroom=True)
+    t2 = Teacher(user_id=teacher2.id, first_name='Anna', last_name='Nowak', is_homeroom=False)
 
     db.session.add(t1)
     db.session.add(t2)
+    db.session.commit()
+
+    # Tworzenie przedmiotów
+    math = Subject(name='Matematyka', teacher_id=t1.id)
+    biology = Subject(name='Biologia', teacher_id=t2.id)
+    english = Subject(name='Angielski', teacher_id=t1.id)
+    history = Subject(name='Historia', teacher_id=t2.id)
+
+    db.session.add(math)
+    db.session.add(biology)
+    db.session.add(english)
+    db.session.add(history)
     db.session.commit()
 
     # Tworzenie uczniów
@@ -47,5 +61,15 @@ with app.app_context():
 
         student = Student(user_id=user.id, first_name=student_data['first_name'], last_name=student_data['last_name'])
         db.session.add(student)
+        db.session.commit()
+
+        # Dodawanie ocen dla ucznia
+        grades = [
+            Grade(student_id=student.id, subject_id=math.id, grade='5'),
+            Grade(student_id=student.id, subject_id=biology.id, grade='4'),
+            Grade(student_id=student.id, subject_id=english.id, grade='5'),
+            Grade(student_id=student.id, subject_id=history.id, grade='3')
+        ]
+        db.session.add_all(grades)
 
     db.session.commit()
