@@ -2,15 +2,55 @@
 body {
     background-color: lavender;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+    position: relative;
 }
 
 h1 {
     color: #4b0082;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 40px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4b0082;
+}
+
+.logout {
+    background-color: #4b0082;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.logout:hover {
+    background-color: #8a2be2;
 }
 
 .container {
@@ -24,6 +64,7 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 800px;
+    margin-top: 80px;
 }
 
 .data-section {
@@ -43,4 +84,14 @@ ul {
 li {
     margin: 10px 0;
     color: #333;
+}
+
+a {
+    color: #4b0082;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #8a2be2;
 }
