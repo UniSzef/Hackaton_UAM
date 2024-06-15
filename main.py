@@ -1,1 +1,1 @@
-print("jestem genziara")
+print("elo all")
