@@ -1,1 +1,1 @@
-print("elo zelo")
+print("elo all")
