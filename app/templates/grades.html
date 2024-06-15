@@ -1,13 +1,26 @@
-{% extends "dashboard.html" %}
-
-{% block title %}Oceny{% endblock %}
-
-{% block content %}
-    <h1>Twoje Oceny</h1>
-    <ul>
-        {% for grade in grades %}
-            <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
-{% endblock %}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Oceny</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+            <span class="title">MIB UAM</span>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <h1>Twoje Oceny</h1>
+        <ul>
+            {% for grade in grades %}
+                <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('main.dashboard') }}" class="button">Powrót do Pulpitu</a>
+    </div>
+</body>
+</html>
