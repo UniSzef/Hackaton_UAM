@@ -14,6 +14,7 @@ class Topic(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('topics', lazy=True))
+    is_anonymous = db.Column(db.Boolean, default=False)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -23,6 +24,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     topic = db.relationship('Topic', backref=db.backref('posts', lazy=True))
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
+    is_anonymous = db.Column(db.Boolean, default=False)
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)

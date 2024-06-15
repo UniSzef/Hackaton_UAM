@@ -5,12 +5,12 @@
     <p>
         {{ form.email.label }}<br>
         {{ form.email(size=32) }}<br>
-        {{ form.email.errors }}
+        {% if form.email.errors %}{{ form.email.errors }}{% endif %} <!-- tutaj zmiana -->
     </p>
     <p>
         {{ form.password.label }}<br>
         {{ form.password(size=32) }}<br>
-        {{ form.password.errors }}
+        {% if form.email.errors %}{{ form.email.errors }}{% endif %} <!-- tutaj zmiana -->
     </p>
     <p>{{ form.submit() }}</p>
 </form>

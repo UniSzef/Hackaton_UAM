@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Length
 
 class LoginForm(FlaskForm):
     email = StringField('Username', validators=[DataRequired()])
@@ -10,8 +10,10 @@ class LoginForm(FlaskForm):
 class TopicForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     body = TextAreaField('Body', validators=[DataRequired()])
+    anonymous = BooleanField('Create as Anonymous')  # Anonymity checkbox
     submit = SubmitField('Submit')
-    
+
 class PostForm(FlaskForm):
     content = TextAreaField('Content', validators=[DataRequired()])
+    anonymous = BooleanField('Create as Anonymous')  # Anonymity checkbox
     submit = SubmitField('Add Post')

@@ -5,18 +5,18 @@
 {% block content %}
 <h1>{{ topic.title }}</h1>
 <p>{{ topic.body }}</p>
-<p>Created by {{ topic.user.username }} on {{ topic.date }}</p>
+<p>Created by {{ 'Anonymous' if topic.is_anonymous else topic.user.username }} on {{ topic.date }}</p>
 
 <h2>Posts</h2>
 <ul>
     {% for post in posts %}
         <li>
             <p>{{ post.content }}</p>
-            <p>Posted by {{ post.user.username }} on {{ post.date }}</p>
-            <a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a>
-            <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="post">
-                <button type="submit">Delete</button>
-            </form>
+            <p>Posted by  {{ 'Anonymous' if post.is_anonymous else post.user.username }} on {{ post.date }}</p>
+             <a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a>
+        <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="post">
+            <button type="submit">Delete</button>
+        </form>
         </li>
     {% endfor %}
 </ul>
@@ -29,7 +29,9 @@
             {{ form.content(rows=5) }}<br>
             {{ form.content.errors }}
         </p>
+        <p>{{ form.anonymous.label }}: {{ form.anonymous() }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+
 {% endif %}
 {% endblock %}

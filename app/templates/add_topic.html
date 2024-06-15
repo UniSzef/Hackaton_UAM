@@ -16,6 +16,7 @@
         {{ form.body(rows=10) }}<br>
         {{ form.body.errors }}
     </p>
+    <p>{{ form.anonymous.label }}: {{ form.anonymous() }}</p>
     <p>{{ form.submit() }}</p>
 </form>
 {% endblock %}
