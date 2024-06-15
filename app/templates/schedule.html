@@ -1,16 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
-    <title>Schedule</title>
+    <title>Plan Lekcji</title>
 </head>
 <body>
-    <h1>Your Schedule</h1>
+    <h1>Twój Plan Lekcji</h1>
     <ul>
         {% for day in schedule %}
-            <li>{{ day.day }}: {{ ', '.join(day.classes) }}</li>
+            <li>{{ day.day }}:</li>
+            <ul>
+                {% for class in day.classes %}
+                    <li>{{ class.subject }} ({{ class.time }}), sala {{ class.room }}{% if class.class %}, klasa {{ class.class }}{% endif %}</li>
+                {% endfor %}
+            </ul>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('main.dashboard') }}">Back to Dashboard</a>
+    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
 </body>
 </html>
