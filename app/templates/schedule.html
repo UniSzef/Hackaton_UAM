@@ -1,26 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
     <title>Plan Lekcji</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='schedule.css') }}">
 </head>
 <body>
-    <div class="header">
-        <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo" class="logo">
-        <span class="title">M I B dziennik</span>
-        <a class="logout" href="{{ url_for('main.logout') }}">Logout</a>
-    </div>
-    <div class="container">
-        <h1>Twój Plan Lekcji</h1>
-        <div class="data-section">
+    <h1>Twój Plan Lekcji</h1>
+    <ul>
+        {% for day in schedule %}
+            <li>{{ day.day }}:</li>
             <ul>
-                {% for day in schedule %}
-                    <li>{{ day.day }}: {{ ', '.join(day.classes) }}</li>
+                {% for class in day.classes %}
+                    <li>{{ class.subject }} ({{ class.time }}), sala {{ class.room }}{% if class.class %}, klasa {{ class.class }}{% endif %}</li>
                 {% endfor %}
             </ul>
-        </div>
-        <a href="{{ url_for('main.dashboard') }}">Powrót do Dashboardu</a>
-    </div>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
 </body>
 </html>

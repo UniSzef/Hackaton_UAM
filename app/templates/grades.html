@@ -1,26 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
     <title>Oceny</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='grade.css') }}">
 </head>
 <body>
-    <div class="header">
-        <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo" class="logo">
-        <span class="title">M I B dziennik</span>
-        <a class="logout" href="{{ url_for('main.logout') }}">Logout</a>
-    </div>
-    <div class="container">
-        <h1>Twoje Oceny</h1>
-        <div class="data-section">
-            <ul>
-                {% for grade in grades %}
-                    <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <a href="{{ url_for('main.dashboard') }}">Powrót do Dashboardu</a>
-    </div>
+    <h1>Twoje Oceny</h1>
+    <ul>
+        {% for grade in grades %}
+            <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
 </body>
 </html>

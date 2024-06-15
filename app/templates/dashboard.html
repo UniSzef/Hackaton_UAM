@@ -1,22 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <title>Pulpit</title>
 </head>
 <body>
-    <div class="header">
-        <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo" class="logo">
-        <span class="title">M I B dziennik</span>
-        <a class="logout" href="{{ url_for('main.logout') }}">Logout</a>
-    </div>
-    <div class="container">
-        <h1>Witaj, {{ current_user.username }}</h1>
-        <div class="big-tile">
-            <a class="button" href="{{ url_for('main.grades') }}">Oceny</a>
-            <a class="button" href="{{ url_for('main.schedule') }}">Plan lekcji</a>
-        </div>
-    </div>
+    <h1>Witaj, {{ current_user.username }}</h1>
+    <ul>
+        {% if current_user.role == 'student' %}
+            <li><a href="{{ url_for('main.grades') }}">Oceny</a></li>
+            <li><a href="{{ url_for('main.schedule') }}">Plan lekcji</a></li>
+        {% elif current_user.role == 'teacher' %}
+            <li><a href="{{ url_for('main.schedule') }}">Plan lekcji</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('main.logout') }}">Wyloguj się</a></li>
+    </ul>
 </body>
 </html>

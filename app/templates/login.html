@@ -1,25 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>Logowanie</title>
 </head>
 <body>
-    <div id="wrapper" style="display: flex; flex-direction: column; justify-content: center;">
-        <div class="logo-container" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo" class="logo" style="height: 200px; width: 200px; border-radius: 8px;">
-        </div>
-        <div class="container">
-            <div>
-                <h1>Witaj użytkowniku</h1>
-            </div>
-            <form action="{{ url_for('main.login') }}" method="post">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    </div>
+    <form action="{{ url_for('main.login') }}" method="post">
+        <input type="text" name="username" placeholder="Nazwa użytkownika" required>
+        <input type="password" name="password" placeholder="Hasło" required>
+        <button type="submit">Zaloguj się</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                window.onload = function() {
+                    {% for category, message in messages %}
+                        alert("{{ message }}");
+                    {% endfor %}
+                };
+            </script>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
