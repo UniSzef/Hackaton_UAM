@@ -10,12 +10,12 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    return redirect(url_for('main.grades'))
+    return redirect(url_for('main.login'))
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.grades'))
+        return redirect(url_for('main.dashboard'))
     form = LoginForm()
     if form.validate_on_submit():
         try:
@@ -24,7 +24,7 @@ def login():
                 flash('Invalid username or password')
                 return redirect(url_for('main.login'))
             login_user(user)
-            return redirect(url_for('main.grades'))
+            return redirect(url_for('main.dashboard'))
         except Exception as e:
             logging.error(f"Error during login: {e}")
             flash('An error occurred during login')
