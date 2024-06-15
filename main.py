@@ -1,0 +1,1 @@
+print("jestem genziara")
