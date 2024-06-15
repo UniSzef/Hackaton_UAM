@@ -1,1 +1,1 @@
-print("jestem genziara")
+print("jestem genziara i zugajka")
