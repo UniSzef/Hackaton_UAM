@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Grades</title>
+</head>
+<body>
+    <h1>Your Grades</h1>
+    <ul>
+        {% for grade in grades %}
+            <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('main.dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
