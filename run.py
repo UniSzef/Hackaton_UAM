@@ -1,11 +1,15 @@
-from app import create_app, db
-from app.models import User
+from app import create_app
+from flask import session
 
 app = create_app()
+first_request = True
 
-@app.shell_context_processor
-def make_shell_context():
-    return {'db': db, 'User': User}
+@app.before_request
+def clear_sessions():
+    global first_request
+    if first_request:
+        session.clear()
+        first_request = False
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
