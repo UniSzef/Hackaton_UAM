@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Schedule</title>
+</head>
+<body>
+    <h1>Your Schedule</h1>
+    <ul>
+        {% for day in schedule %}
+            <li>{{ day.day }}: {{ ', '.join(day.classes) }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('main.dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
