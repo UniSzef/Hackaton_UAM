@@ -1,42 +1,17 @@
-<!doctype html>
-<html lang="en">
-<<<<<<< HEAD
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Login</title>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Login</h1>
-      <form method="POST" action="{{ url_for('login') }}">
-        {{ form.hidden_tag() }}
-        <div>
-          {{ form.email.label }}<br>
-          {{ form.email(size=32) }}<br>
-        </div>
-        <div>
-          {{ form.password.label }}<br>
-          {{ form.password(size=32) }}<br>
-        </div>
-        <div>
-          {{ form.submit() }}
-        </div>
-      </form>
-    </div>
-  </body>
-=======
-<head>
-    <meta charset="utf-8">
-    <title>Login</title>
-</head>
-<body>
-    <form action="{{ url_for('main.login') }}" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
-</body>
->>>>>>> main
-</html>
+{% block content %}
+<h1>Login</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.email.label }}<br>
+        {{ form.email(size=32) }}<br>
+        {{ form.email.errors }}
+    </p>
+    <p>
+        {{ form.password.label }}<br>
+        {{ form.password(size=32) }}<br>
+        {{ form.password.errors }}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

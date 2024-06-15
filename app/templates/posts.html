@@ -1,0 +1,31 @@
+{% extends "dashboard.html" %}
+
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ topic.title }}</h1>
+<p>{{ topic.body }}</p>
+<p>Created by {{ topic.user.username }} on {{ topic.date }}</p>
+
+<h2>Posts</h2>
+<ul>
+    {% for post in posts %}
+        <li>
+            <p>{{ post.content }}</p>
+            <p>Posted by {{ post.user.username }} on {{ post.date }}</p>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if current_user.is_authenticated %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.content.label }}<br>
+            {{ form.content(rows=5) }}<br>
+            {{ form.content.errors }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endif %}
+{% endblock %}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Dashboard</title>
+    <title>{% block title %}Dashboard{% endblock %}</title>
 </head>
 <body>
     <h1>Welcome, {{ current_user.username }}</h1>
@@ -11,5 +11,12 @@
         <li><a href="{{ url_for('main.schedule') }}">Schedule</a></li>
         <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
     </ul>
+    <a href="{{ url_for('main.topics') }}">Topics</a>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('main.login') }}">Login</a>
+    {% endif %}
+    {% block content %}{% endblock %}
 </body>
 </html>
