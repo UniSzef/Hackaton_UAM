@@ -1,13 +1,18 @@
 {% extends "dashboard.html" %}
 
-{% block title %}Schedule{% endblock %}
+{% block title %}Plan Lekcji{% endblock %}
 
 {% block content %}
-<h1>Your Schedule</h1>
-<ul>
-    {% for day in schedule %}
-        <li>{{ day.day }}: {{ ', '.join(day.classes) }}</li>
-    {% endfor %}
-</ul>
-<a href="{{ url_for('main.dashboard') }}">Back to Dashboard</a>
+    <h1>Twój Plan Lekcji</h1>
+    <ul>
+        {% for day in schedule %}
+            <li>{{ day.day }}:</li>
+            <ul>
+                {% for class in day.classes %}
+                    <li>{{ class.subject }} ({{ class.time }}), sala {{ class.room }}{% if class.class %}, klasa {{ class.class }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
 {% endblock %}

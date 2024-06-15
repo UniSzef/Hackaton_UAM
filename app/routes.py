@@ -103,11 +103,89 @@ def add_topic():
 @bp.route('/schedule')
 @login_required
 def schedule():
-    schedule = [
-        {'day': 'Monday', 'classes': ['Math', 'Science', 'English', 'History', 'PE']},
-        {'day': 'Tuesday', 'classes': ['Math', 'Science', 'English', 'Geography', 'Art']},
-        {'day': 'Wednesday', 'classes': ['Math', 'Science', 'English', 'History', 'PE']},
-        {'day': 'Thursday', 'classes': ['Math', 'Science', 'English', 'Geography', 'Music']},
-        {'day': 'Friday', 'classes': ['Math', 'Science', 'English', 'History', 'PE']}
-    ]
+    if current_user.role == 'student':
+        schedule = [
+            {'day': 'Poniedziałek', 'classes': [
+                {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101'},
+                {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102'},
+                {'subject': 'Angielski', 'time': '10:00-10:45', 'room': '103'},
+                {'subject': 'Historia', 'time': '11:00-11:45', 'room': '104'},
+                {'subject': 'WF', 'time': '12:00-12:45', 'room': '105'}
+            ]},
+            {'day': 'Wtorek', 'classes': [
+                {'subject': 'Fizyka', 'time': '8:00-8:45', 'room': '101'},
+                {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102'},
+                {'subject': 'Angielski', 'time': '10:00-10:45', 'room': '103'},
+                {'subject': 'Geografia', 'time': '11:00-11:45', 'room': '104'},
+                {'subject': 'Plastyka', 'time': '12:00-12:45', 'room': '105'}
+            ]},
+            {'day': 'Środa', 'classes': [
+                {'subject': 'Chemia', 'time': '8:00-8:45', 'room': '101'},
+                {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102'},
+                {'subject': 'Angielski', 'time': '10:00-10:45', 'room': '103'},
+                {'subject': 'Historia', 'time': '11:00-11:45', 'room': '104'},
+                {'subject': 'WF', 'time': '12:00-12:45', 'room': '105'}
+            ]},
+            {'day': 'Czwartek', 'classes': [
+                {'subject': 'Geografia', 'time': '8:00-8:45', 'room': '101'},
+                {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102'},
+                {'subject': 'Angielski', 'time': '10:00-10:45', 'room': '103'},
+                {'subject': 'Biologia', 'time': '11:00-11:45', 'room': '104'},
+                {'subject': 'Muzyka', 'time': '12:00-12:45', 'room': '105'}
+            ]},
+            {'day': 'Piątek', 'classes': [
+                {'subject': 'Historia', 'time': '8:00-8:45', 'room': '101'},
+                {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102'},
+                {'subject': 'Angielski', 'time': '10:00-10:45', 'room': '103'},
+                {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '104'},
+                {'subject': 'WF', 'time': '12:00-12:45', 'room': '105'}
+            ]}
+        ]
+    elif current_user.role == 'teacher':
+        if current_user.username == 'teacher1':
+            schedule = [
+                {'day': 'Poniedziałek', 'classes': [
+                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                ]},
+                {'day': 'Wtorek', 'classes': [
+                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                ]},
+                {'day': 'Środa', 'classes': [
+                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                ]},
+                {'day': 'Czwartek', 'classes': [
+                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                ]},
+                {'day': 'Piątek', 'classes': [
+                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                ]}
+            ]
+        elif current_user.username == 'teacher2':
+            schedule = [
+                {'day': 'Poniedziałek', 'classes': [
+                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                ]},
+                {'day': 'Wtorek', 'classes': [
+                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                ]},
+                {'day': 'Środa', 'classes': [
+                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                ]},
+                {'day': 'Czwartek', 'classes': [
+                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                ]},
+                {'day': 'Piątek', 'classes': [
+                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                ]}
+            ]
     return render_template('schedule.html', schedule=schedule)
