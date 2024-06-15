@@ -189,3 +189,65 @@ def schedule():
                 ]}
             ]
     return render_template('schedule.html', schedule=schedule)
+
+@bp.route('/edit_post/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if current_user.id != post.user_id:
+        flash('You do not have permission to edit this post.')
+        return redirect(url_for('main.posts', topic_id=post.topic_id))
+
+    form = PostForm()
+    if form.validate_on_submit():
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated.')
+        return redirect(url_for('main.posts', topic_id=post.topic_id))
+    elif request.method == 'GET':
+        form.content.data = post.content
+
+    return render_template('edit_post.html', form=form)
+
+@bp.route('/delete_post/<int:post_id>', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if current_user.id != post.user_id:
+        flash('You do not have permission to delete this post.')
+        return redirect(url_for('main.posts', topic_id=post.topic_id))
+
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted.')
+    return redirect(url_for('main.posts', topic_id=post.topic_id))
+
+@bp.route('/edit_topic/<int:topic_id>', methods=['GET', 'POST'])
+@login_required
+def edit_topic(topic_id):
+    topic = Topic.query.get_or_404(topic_id)
+    if current_user.id != topic.user_id:
+        flash('You do not have permission to edit this topic.')
+        return redirect(url_for('main.topics'))
+
+    form = TopicForm(obj=topic)  # Pre-fill form
+    if form.validate_on_submit():
+        topic.title = form.title.data
+        topic.body = form.body.data
+        db.session.commit()
+        flash('Your topic has been updated.')
+        return redirect(url_for('main.topics'))
+    return render_template('edit_topic.html', form=form)
+
+@bp.route('/delete_topic/<int:topic_id>', methods=['POST'])
+@login_required
+def delete_topic(topic_id):
+    topic = Topic.query.get_or_404(topic_id)
+    if current_user.id != topic.user_id:
+        flash('You do not have permission to delete this topic.')
+        return redirect(url_for('main.topics'))
+
+    db.session.delete(topic)
+    db.session.commit()
+    flash('Your topic has been deleted.')
+    return redirect(url_for('main.topics'))

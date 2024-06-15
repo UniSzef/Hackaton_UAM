@@ -10,8 +10,8 @@ class LoginForm(FlaskForm):
 class TopicForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     body = TextAreaField('Body', validators=[DataRequired()])
-    submit = SubmitField('Create Topic')
-
+    submit = SubmitField('Submit')
+    
 class PostForm(FlaskForm):
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Add Post')

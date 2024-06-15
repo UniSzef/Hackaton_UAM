@@ -1,0 +1,21 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h1>Edit Topic</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.title.label }}<br>
+        {{ form.title(size=32) }}<br>
+        {{ form.title.errors }}
+    </div>
+    <div>
+        {{ form.body.label }}<br>
+        {{ form.body(rows=4) }}<br>
+        {{ form.body.errors }}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock %}

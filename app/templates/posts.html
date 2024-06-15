@@ -13,6 +13,10 @@
         <li>
             <p>{{ post.content }}</p>
             <p>Posted by {{ post.user.username }} on {{ post.date }}</p>
+            <a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a>
+            <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="post">
+                <button type="submit">Delete</button>
+            </form>
         </li>
     {% endfor %}
 </ul>

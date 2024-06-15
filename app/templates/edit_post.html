@@ -1,0 +1,11 @@
+{% block content %}
+<h1>Edit Post</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.content.label }}
+        {{ form.content(rows=4) }}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

@@ -9,11 +9,13 @@
 {% endif %}
 <ul>
     {% for topic in topics %}
-        <li>
-            <a href="{{ url_for('main.posts', topic_id=topic.id) }}">{{ topic.title }}</a>
-            <p>{{ topic.body }}</p>
-            <p>Created by {{ topic.user.username }} on {{ topic.date }}</p>
-        </li>
+    <li>
+        {{ topic.title }} - <a href="{{ url_for('main.posts', topic_id=topic.id) }}">View Posts</a>
+        <a href="{{ url_for('main.edit_topic', topic_id=topic.id) }}">Edit</a>
+        <form action="{{ url_for('main.delete_topic', topic_id=topic.id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this topic?');">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}
