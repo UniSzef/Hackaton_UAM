@@ -8,11 +8,16 @@
         {% for day in schedule %}
             <li>{{ day.day }}:</li>
             <ul>
-                {% for class in day.classes %}
-                    <li>{{ class.subject }} ({{ class.time }}), sala {{ class.room }}{% if class.class %}, klasa {{ class.class }}{% endif %}</li>
+                {% for lesson in day.classes %}
+                    <li>
+                        {{ lesson.subject }} - {{ lesson.time }} (Room: {{ lesson.room }})
+                        {% if current_user.role == 'teacher' %}
+                            - <a href="{{ url_for('main.attendance', lesson_id=lesson.id) }}">Sprawdź obecność</a>
+                            - <a href="{{ url_for('main.wheel_of_fortune') }}">Koło fortuny</a>
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
 {% endblock %}

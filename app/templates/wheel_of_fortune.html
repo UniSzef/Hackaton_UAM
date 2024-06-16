@@ -1,0 +1,18 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Wheel of Fortune{% endblock %}
+
+{% block content %}
+    <h1>Wheel of Fortune</h1>
+    <form method="POST">
+        <button type="submit">Spin the Wheel</button>
+    </form>
+    <ul>
+        {% for student in students %}
+            <li>{{ student.first_name }} {{ student.last_name }}</li>
+        {% endfor %}
+    </ul>
+    {% if selected_student %}
+        <h2>The chosen student is: {{ selected_student.first_name }} {{ selected_student.last_name }}</h2>
+    {% endif %}
+{% endblock %}
