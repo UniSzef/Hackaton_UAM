@@ -1,46 +1,70 @@
-{% extends "dashboard.html" %}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>{{ topic.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='posts.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+                <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+            </a>
+            <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+                <span class="title">MIB UAM</span>
+            </a>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="post-container">
+        <h1 class="post-title">{{ topic.title }}</h1>
+        <p class="post-body">{{ topic.body }}</p>
+        <p class="post-meta">Created by {{ 'Anonymous' if topic.is_anonymous else topic.user.username }} on {{ topic.date }}</p>
 
-{% block title %}{{ topic.title }}{% endblock %}
+        <h2 class="comments-title">Posts</h2>
+        <ul class="comments-list">
+            {% for post in posts %}
+                <li class="comment-item">
+                    <p class="comment-content">{{ post.content }}</p>
+                    <p class="comment-meta">Posted by {{ 'Anonymous' if post.is_anonymous else post.user.username }} on {{ post.date }}</p>
+                    <div class="comment-actions">
+                        <a href="{{ url_for('main.edit_post', post_id=post.id) }}" class="button">Edit</a>
+                        <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="post" class="delete-form">
+                            <button type="submit" class="button">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
 
-{% block content %}
-<h1>{{ topic.title }}</h1>
-<p>{{ topic.body }}</p>
-<p>Created by {{ 'Anonymous' if topic.is_anonymous else topic.user.username }} on {{ topic.date }}</p>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-warning">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-<h2>Posts</h2>
-<ul>
-    {% for post in posts %}
-        <li>
-            <p>{{ post.content }}</p>
-            <p>Posted by  {{ 'Anonymous' if post.is_anonymous else post.user.username }} on {{ post.date }}</p>
-             <a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a>
-        <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="post">
-            <button type="submit">Delete</button>
-        </form>
-        </li>
-    {% endfor %}
-</ul>
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-warning">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-
-
-{% if current_user.is_authenticated %}
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.content.label }}<br>
-            {{ form.content(rows=5) }}<br>
-            {{ form.content.errors }}
-        </p>
-        <p>{{ form.anonymous.label }}: {{ form.anonymous() }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
-
-{% endif %}
-{% endblock %}
+        {% if current_user.is_authenticated %}
+            <form method="POST" class="new-comment-form">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="content" class="form-label">Content</label>
+                    {{ form.content(rows=5, class="form-control form-textarea") }}
+                    {% for error in form.content.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group form-check">
+                    <label for="anonymous" class="form-check-label">Create as Anonymous</label>
+                    {{ form.anonymous(class="form-check-input") }}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="button") }}
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>

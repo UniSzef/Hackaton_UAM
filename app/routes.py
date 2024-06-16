@@ -61,23 +61,20 @@ def grades():
         logging.error(f"Error during fetching grades: {e}")
         return redirect(url_for('main.dashboard'))
 
-@bp.route('/topic/<int:topic_id>', methods=['GET', 'POST'])
+@bp.route('/posts/<int:topic_id>', methods=['GET', 'POST'])
 @login_required
 def posts(topic_id):
-    try:
-        topic = Topic.query.get_or_404(topic_id)
-        posts = Post.query.filter_by(topic_id=topic_id).all()
-        form = PostForm()
-        if form.validate_on_submit():
-            new_post = Post(content=form.content.data, topic_id=topic_id, user_id=current_user.id, is_anonymous=form.anonymous.data)
-            db.session.add(new_post)
-            db.session.commit()
-            return redirect(url_for('main.posts', topic_id=topic_id))
-        return render_template('posts.html', topic=topic, posts=posts, form=form)
-    except Exception as e:
-        logging.error(f"Error fetching posts or creating a new post: {e}")
-        flash('An error occurred while fetching posts or creating a new post')
-        return redirect(url_for('main.topics'))
+    topic = Topic.query.get_or_404(topic_id)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(content=form.content.data, topic_id=topic_id, user_id=current_user.id, is_anonymous=form.anonymous.data)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('main.posts', topic_id=topic_id))
+    posts = Post.query.filter_by(topic_id=topic_id).all()
+    return render_template('posts.html', topic=topic, posts=posts, form=form)
+
     
 @bp.route('/topics')
 def topics():
