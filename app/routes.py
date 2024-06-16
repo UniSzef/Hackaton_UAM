@@ -27,15 +27,18 @@ def attendance(subject_id):
         Attendance.query.filter_by(date=date).delete()
         db.session.commit()
 
+        present_students = []
+
         # Process the form
         for i, student in enumerate(students):
             is_present = 'students-{}-present'.format(i) in request.form
             attendance = Attendance(date=date, student_id=student.id, present=is_present)
             db.session.add(attendance)
+            if is_present:
+                present_students.append(student)
         db.session.commit()
 
-        flash('Attendance recorded successfully.')
-        return redirect(url_for('main.schedule'))
+        return render_template('attendance_results.html', present_students=present_students)
 
     while len(form.students) > 0:
         form.students.pop_entry()
