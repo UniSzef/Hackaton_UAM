@@ -1,22 +1,48 @@
-{% extends "dashboard.html" %}
-
-{% block title %}Add Topic{% endblock %}
-
-{% block content %}
-<h1>Add New Topic</h1>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.title.label }}<br>
-        {{ form.title(size=64) }}<br>
-        {{ form.title.errors }}
-    </p>
-    <p>
-        {{ form.body.label }}<br>
-        {{ form.body(rows=10) }}<br>
-        {{ form.body.errors }}
-    </p>
-    <p>{{ form.anonymous.label }}: {{ form.anonymous() }}</p>
-    <p>{{ form.submit() }}</p>
-</form>
-{% endblock %}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Dodaj Temat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_topic.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <span class="title">MIB UAM</span>
+        </a>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <h1>Dodaj Nowy Temat</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label>Tytuł</label>
+                {{ form.title(size=64, class="form-control") }}
+                {% for error in form.title.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label>Wiadomość</label>
+                {{ form.body(rows=10, class="form-control") }}
+                {% for error in form.body.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label>Wyślij wiadomość anonimowo</label>
+                {{ form.anonymous(class="form-check-input") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="button") }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

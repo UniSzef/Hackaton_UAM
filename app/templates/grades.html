@@ -8,8 +8,12 @@
 <body>
     <header class="header">
         <div class="header-content">
+            <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
             <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
             <span class="title">MIB UAM</span>
+        </a>
         </div>
         <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
     </header>

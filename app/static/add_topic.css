@@ -1,4 +1,4 @@
-/* dashboard.css */
+/* add_topic.css */
 body {
     background-color: lavender;
     display: flex;
@@ -51,7 +51,7 @@ body {
 }
 
 .logout:hover {
-    background-color: #8a2be2;
+    background-color: #5D3FD3; /* Ciemniejszy odcień dla hover */
 }
 
 .container {
@@ -60,30 +60,56 @@ body {
     align-items: center;
     text-align: center;
     background-color: white;
-    padding: 60px; /* Zwiększenie paddingu */
+    padding: 60px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 800px;
-    margin-top: 200px; /* Przesunięcie kontenera w dół */
+    margin-top: 200px;
 }
 
-.panels {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #4b0082;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-check-input {
+    margin-left: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
 }
 
 .button {
     display: inline-block;
     background-color: #4b0082;
     color: white;
-    padding: 20px 40px; /* Zwiększenie rozmiaru przycisków */
-    border-radius: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
     text-decoration: none;
-    font-size: 18px; /* Zwiększenie rozmiaru czcionki */
-    margin-bottom: 20px; /* Dodanie marginesu między przyciskami */
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
 }
 
 .button:hover {
