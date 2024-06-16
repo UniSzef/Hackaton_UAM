@@ -37,7 +37,13 @@
                         <td>
                             {% if day.classes[i] is defined %}
                                 <div class="class-item">
-                                    {{ day.classes[i].subject }}
+                                    {% if day.classes[i].subject_id is defined %}
+                                        <a href="{{ url_for('main.attendance', subject_id=day.classes[i].subject_id) }}">
+                                            {{ day.classes[i].subject }}
+                                        </a>
+                                    {% else %}
+                                        {{ day.classes[i].subject }}
+                                    {% endif %}
                                     <div class="class-room">{{ day.classes[i].room }}</div>
                                     {% if day.classes[i].class %}
                                         <div class="class-info">klasa {{ day.classes[i].class }}</div>

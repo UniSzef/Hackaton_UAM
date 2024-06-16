@@ -26,13 +26,6 @@ class Post(db.Model):
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
     is_anonymous = db.Column(db.Boolean, default=False)
 
-class Student(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    first_name = db.Column(db.String(64), nullable=False)
-    last_name = db.Column(db.String(64), nullable=False)
-    grades = db.relationship('Grade', backref='student', lazy='dynamic')
-
 class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -51,3 +44,17 @@ class Grade(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
     grade = db.Column(db.String(2), nullable=False)
+
+class Student(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    first_name = db.Column(db.String(64), nullable=False)
+    last_name = db.Column(db.String(64), nullable=False)
+    grades = db.relationship('Grade', backref='student', lazy='dynamic')
+    attendance = db.relationship('Attendance', backref='student', lazy='dynamic')
+
+class Attendance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
+    present = db.Column(db.Boolean, default=False)
