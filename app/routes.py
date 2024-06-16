@@ -48,12 +48,17 @@ def grades():
         if current_user.role == 'student':
             student = Student.query.filter_by(user_id=current_user.id).first()
             grades = Grade.query.filter_by(student_id=student.id).all()
-            return render_template('grades.html', grades=grades)
+            grades_by_subject = {}
+            for grade in grades:
+                subject_name = grade.subject.name
+                if subject_name not in grades_by_subject:
+                    grades_by_subject[subject_name] = []
+                grades_by_subject[subject_name].append(grade)
+            return render_template('grades.html', grades_by_subject=grades_by_subject)
         else:
             return redirect(url_for('main.dashboard'))
     except Exception as e:
-        logging.error(f"Error fetching grades: {e}")
-        flash('An error occurred while fetching grades')
+        logging.error(f"Error during fetching grades: {e}")
         return redirect(url_for('main.dashboard'))
 
 @bp.route('/topic/<int:topic_id>', methods=['GET', 'POST'])

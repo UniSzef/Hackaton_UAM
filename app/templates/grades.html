@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Oceny</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='grades.css') }}">
 </head>
 <body>
     <header class="header">
@@ -19,11 +19,16 @@
     </header>
     <div class="container">
         <h1>Twoje Oceny</h1>
-        <ul>
-            {% for grade in grades %}
-                <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
+        <div class="grades-container">
+            {% for subject, subject_grades in grades_by_subject.items() %}
+                <div class="subject-grades">
+                    <span class="subject-name">{{ subject }}:</span>
+                    {% for grade in subject_grades %}
+                        <span class="grade">{{ grade.grade }}</span>
+                    {% endfor %}
+                </div>
             {% endfor %}
-        </ul>
+        </div>
         <a href="{{ url_for('main.dashboard') }}" class="button">Powrót do Pulpitu</a>
     </div>
 </body>

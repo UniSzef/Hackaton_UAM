@@ -1,7 +1,7 @@
 from app import create_app, db
 from app.models import User, Student, Teacher, Subject, Grade
 from werkzeug.security import generate_password_hash
-
+import random
 app = create_app()
 
 with app.app_context():
@@ -54,6 +54,8 @@ with app.app_context():
         {'username': 'student10', 'password': '10', 'first_name': 'Student10', 'last_name': 'Ten'}
     ]
 
+    subjects = [math, biology, english, history]
+
     for student_data in students:
         user = User(username=student_data['username'], password=generate_password_hash(student_data['password']), role='student')
         db.session.add(user)
@@ -64,12 +66,13 @@ with app.app_context():
         db.session.commit()
 
         # Dodawanie ocen dla ucznia
-        grades = [
-            Grade(student_id=student.id, subject_id=math.id, grade='5'),
-            Grade(student_id=student.id, subject_id=biology.id, grade='4'),
-            Grade(student_id=student.id, subject_id=english.id, grade='5'),
-            Grade(student_id=student.id, subject_id=history.id, grade='3')
-        ]
+        grades = []
+        for subject in subjects:
+            # Generate between 2 to 5 grades for each subject
+            for _ in range(random.randint(2, 5)):
+                grade = Grade(student_id=student.id, subject_id=subject.id, grade=str(random.randint(1, 6)))
+                grades.append(grade)
+        
         db.session.add_all(grades)
 
     db.session.commit()
