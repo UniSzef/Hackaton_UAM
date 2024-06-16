@@ -42,16 +42,16 @@ with app.app_context():
 
     # Tworzenie uczniów
     students = [
-        {'username': 'student1', 'password': '1', 'first_name': 'Student1', 'last_name': 'One'},
-        {'username': 'student2', 'password': '2', 'first_name': 'Student2', 'last_name': 'Two'},
-        {'username': 'student3', 'password': '3', 'first_name': 'Student3', 'last_name': 'Three'},
-        {'username': 'student4', 'password': '4', 'first_name': 'Student4', 'last_name': 'Four'},
-        {'username': 'student5', 'password': '5', 'first_name': 'Student5', 'last_name': 'Five'},
-        {'username': 'student6', 'password': '6', 'first_name': 'Student6', 'last_name': 'Six'},
-        {'username': 'student7', 'password': '7', 'first_name': 'Student7', 'last_name': 'Seven'},
-        {'username': 'student8', 'password': '8', 'first_name': 'Student8', 'last_name': 'Eight'},
-        {'username': 'student9', 'password': '9', 'first_name': 'Student9', 'last_name': 'Nine'},
-        {'username': 'student10', 'password': '10', 'first_name': 'Student10', 'last_name': 'Ten'}
+        {'username': 'student1', 'password': '1', 'first_name': 'Wiktoria', 'last_name': 'Bąk'},
+        {'username': 'student2', 'password': '2', 'first_name': 'Anna', 'last_name': 'Lewandowska'},
+        {'username': 'student3', 'password': '3', 'first_name': 'Piotr', 'last_name': 'Wiśniewski'},
+        {'username': 'student4', 'password': '4', 'first_name': 'Maria', 'last_name': 'Wójcik'},
+        {'username': 'student5', 'password': '5', 'first_name': 'Adam', 'last_name': 'Andrzejewski'},
+        {'username': 'student6', 'password': '6', 'first_name': 'Marta', 'last_name': 'Broda'},
+        {'username': 'student7', 'password': '7', 'first_name': 'Robert', 'last_name': 'Liszkiewicz'},
+        {'username': 'student8', 'password': '8', 'first_name': 'Paweł', 'last_name': 'Zieliński'},
+        {'username': 'student9', 'password': '9', 'first_name': 'Ewa', 'last_name': 'Szymańska'},
+        {'username': 'student10', 'password': '10', 'first_name': 'Tomasz', 'last_name': 'Woźniak'}
     ]
 
     subjects = [math, biology, english, history]
