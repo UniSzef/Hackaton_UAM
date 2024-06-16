@@ -1,12 +1,62 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from flask_login import current_user, login_user, logout_user, login_required
 from app import db
-from app.models import User, Student, Teacher, Grade, Subject, Topic, Post
+from app.models import User, Student, Teacher, Grade, Subject, Topic, Post, Attendance
 from app.forms import LoginForm, TopicForm, PostForm
 from werkzeug.security import check_password_hash, generate_password_hash
 import logging
+from app.forms import AttendanceForm
+from datetime import datetime
+import random
+
+
 
 bp = Blueprint('main', __name__)
+
+@bp.route('/attendance/<int:lesson_id>', methods=['GET', 'POST'])
+@login_required
+def attendance(lesson_id):
+    form = AttendanceForm()
+    students = Student.query.all()
+    
+    if request.method == 'POST':
+        date = datetime.utcnow().date()
+        
+        # Usuń istniejące rekordy obecności dla danego dnia
+        Attendance.query.filter_by(date=date).delete()
+        db.session.commit()
+        
+        # Przetwarzanie formularza
+        for i, student in enumerate(students):
+            is_present = 'students-{}-present'.format(i) in request.form
+            attendance = Attendance(date=date, student_id=student.id, present=is_present)
+            db.session.add(attendance)
+        db.session.commit()
+        
+        flash('Attendance recorded successfully.')
+        return redirect(url_for('main.schedule'))
+    
+    # Pre-populate form with students
+    while len(form.students) > 0:
+        form.students.pop_entry()
+    for student in students:
+        form.students.append_entry()
+    
+    return render_template('attendance.html', form=form, students=students, zip=zip)
+
+
+
+
+
+@bp.route('/wheel_of_fortune', methods=['GET', 'POST'])
+@login_required
+def wheel_of_fortune():
+    date = datetime.utcnow().date()
+    present_students = Student.query.join(Attendance).filter(Attendance.date == date, Attendance.present == True).all()
+    selected_student = None
+    return render_template('wheel_of_fortune.html', students=present_students)
+
+
 
 @bp.route('/')
 def index():
@@ -208,47 +258,47 @@ def schedule():
         if current_user.username == 'teacher1':
             schedule = [
                 {'day': 'Poniedziałek', 'classes': [
-                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
-                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                    {'id': 11, 'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'id': 12, 'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
                 ]},
                 {'day': 'Wtorek', 'classes': [
-                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
-                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                    {'id': 13, 'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'id': 14, 'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
                 ]},
                 {'day': 'Środa', 'classes': [
-                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
-                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                    {'id': 15, 'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'id': 16, 'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
                 ]},
                 {'day': 'Czwartek', 'classes': [
-                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
-                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                    {'id': 17, 'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'id': 18, 'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
                 ]},
                 {'day': 'Piątek', 'classes': [
-                    {'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
-                    {'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
+                    {'id': 19, 'subject': 'Matematyka', 'time': '9:00-9:45', 'room': '102', 'class': '4A'},
+                    {'id': 20, 'subject': 'Informatyka', 'time': '10:00-10:45', 'room': '106', 'class': '6B'}
                 ]}
             ]
         elif current_user.username == 'teacher2':
             schedule = [
                 {'day': 'Poniedziałek', 'classes': [
-                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
-                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                    {'id': 21, 'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'id': 22, 'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
                 ]},
                 {'day': 'Wtorek', 'classes': [
-                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
-                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                    {'id': 23, 'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'id': 24, 'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
                 ]},
                 {'day': 'Środa', 'classes': [
-                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
-                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                    {'id': 25, 'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'id': 26, 'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
                 ]},
                 {'day': 'Czwartek', 'classes': [
-                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
-                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                    {'id': 27, 'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'id': 28, 'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
                 ]},
                 {'day': 'Piątek', 'classes': [
-                    {'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
-                    {'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
+                    {'id': 29, 'subject': 'Biologia', 'time': '8:00-8:45', 'room': '101', 'class': '4A'},
+                    {'id': 30, 'subject': 'Chemia', 'time': '11:00-11:45', 'room': '107', 'class': '6B'}
                 ]}
             ]
     return render_template('schedule.html', schedule=schedule)

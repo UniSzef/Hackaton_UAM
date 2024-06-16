@@ -45,6 +45,15 @@
                                 </div>
                             {% endif %}
                         </td>
+                        <td>
+                                {% for lesson in day.classes %}
+                                        {{ lesson.subject }} - {{ lesson.time }} (Room: {{ lesson.room }})
+                                        {% if current_user.role == 'teacher' %}
+                                            - <a href="{{ url_for('main.attendance', lesson_id=lesson.id) }}">Sprawdź obecność</a>
+                                            - <a href="{{ url_for('main.wheel_of_fortune') }}">Koło fortuny</a>
+                                        {% endif %}
+                                {% endfor %}
+                        </td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
