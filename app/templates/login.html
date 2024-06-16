@@ -30,16 +30,12 @@
             </div>
         </form>
     </div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <script>
-                window.onload = function() {
-                    {% for category, message in messages %}
-                        alert("{{ message }}");
-                    {% endfor %}
-                };
-            </script>
-        {% endif %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-warning">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     {% endwith %}
     {% endblock %}
 </body>

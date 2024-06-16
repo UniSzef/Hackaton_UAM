@@ -21,7 +21,7 @@ def login():
         try:
             user = User.query.filter_by(username=form.email.data).first()
             if user is None or not check_password_hash(user.password, form.password.data):
-                flash('Invalid username or password')
+                flash('Nieprawidłowa nazwa użytkownika lub błędne hasło.')
                 return redirect(url_for('main.login'))
             login_user(user)
             return redirect(url_for('main.dashboard'))
@@ -105,7 +105,7 @@ def add_topic():
 def edit_topic(topic_id):
     topic = Topic.query.get_or_404(topic_id)
     if current_user.id != topic.user_id:
-        flash('You do not have permission to edit this topic.')
+        flash("Nie posiadasz uprawnień do edycji tego tematu.")
         return redirect(url_for('main.topics'))
 
     form = TopicForm(obj=topic)  # Pre-fill form
@@ -113,7 +113,7 @@ def edit_topic(topic_id):
         topic.title = form.title.data
         topic.body = form.body.data
         db.session.commit()
-        flash('Your topic has been updated.')
+        flash('Twój temat został zaktualizowany.')
         return redirect(url_for('main.topics'))
     return render_template('edit_topic.html', form=form)
 
@@ -122,12 +122,12 @@ def edit_topic(topic_id):
 def delete_topic(topic_id):
     topic = Topic.query.get_or_404(topic_id)
     if current_user.id != topic.user_id:
-        flash('You do not have permission to delete this topic.')
+        flash("Nie posiadasz uprawnień do usunięcia tego tematu.")
         return redirect(url_for('main.topics'))
 
     db.session.delete(topic)
     db.session.commit()
-    flash('Your topic has been deleted.')
+    flash('Twój temat został usunięty.')
     return redirect(url_for('main.topics'))
 
     
@@ -136,14 +136,14 @@ def delete_topic(topic_id):
 def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
     if current_user.id != post.user_id:
-        flash('You do not have permission to edit this post.')
+        flash('Nie posiadasz uprawnień do edycji tej wypowiedzi.')
         return redirect(url_for('main.posts', topic_id=post.topic_id))
 
     form = PostForm()
     if form.validate_on_submit():
         post.content = form.content.data
         db.session.commit()
-        flash('Your post has been updated.')
+        flash('Twoja wypowiedź została zaktualizowana.')
         return redirect(url_for('main.posts', topic_id=post.topic_id))
     elif request.method == 'GET':
         form.content.data = post.content
@@ -155,12 +155,12 @@ def edit_post(post_id):
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
     if current_user.id != post.user_id:
-        flash('You do not have permission to delete this post.')
+        flash('Nie posiadasz uprawnień do usunięcia tej wypowiedzi.')
         return redirect(url_for('main.posts', topic_id=post.topic_id))
 
     db.session.delete(post)
     db.session.commit()
-    flash('Your post has been deleted.')
+    flash('Twoja wypowiedź została usunięta.')
     return redirect(url_for('main.posts', topic_id=post.topic_id))
 
 @bp.route('/schedule')
