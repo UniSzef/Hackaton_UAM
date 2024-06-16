@@ -3,14 +3,33 @@
 <head>
     <meta charset="utf-8">
     <title>Oceny</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='grades.css') }}">
 </head>
 <body>
-    <h1>Twoje Oceny</h1>
-    <ul>
-        {% for grade in grades %}
-            <li>{{ grade.subject.name }}: {{ grade.grade }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
+    <header class="header">
+        <div class="header-content">
+              <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <span class="title">MIB UAM</span>
+        </a>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <h1>Twoje Oceny</h1>
+        <div class="grades-container">
+            {% for subject, subject_grades in grades_by_subject.items() %}
+                <div class="subject-grades">
+                    <span class="subject-name">{{ subject }}:</span>
+                    {% for grade in subject_grades %}
+                        <span class="grade">{{ grade.grade }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('main.dashboard') }}" class="button">Powrót do Pulpitu</a>
+    </div>
 </body>
 </html>

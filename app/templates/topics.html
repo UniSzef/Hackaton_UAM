@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Forum</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='topics.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+             <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <span class="title">MIB UAM</span>
+        </a>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <h1>Forum</h1>
+        <ul>
+            {% for topic in topics %}
+            <li>
+                {{ topic.title }}
+                <div class="topic-buttons">
+                    <a href="{{ url_for('main.posts', topic_id=topic.id) }}" class="small-button">Zobacz Posty</a>
+                    <a href="{{ url_for('main.edit_topic', topic_id=topic.id) }}" class="small-button">Edytuj</a>
+                    <form action="{{ url_for('main.delete_topic', topic_id=topic.id) }}" method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć ten temat?');" style="display: inline;">
+                        <button type="submit" class="small-button">Usuń</button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="bottom-buttons">
+            <a href="{{ url_for('main.dashboard') }}" class="button">Powrót do Pulpitu</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.add_topic') }}" class="button">Dodaj Nowy Temat</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

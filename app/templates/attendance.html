@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Sprawdzanie Obecności</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='attendance.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+                <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+            </a>
+            <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+                <span class="title">MIB UAM</span>
+            </a>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <h1>Sprawdzanie Obecności - {{ subject.name }}</h1>
+        <form method="POST">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Uczeń</th>
+                        <th>Obecny</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student, form in zip(students, form.students) %}
+                        <tr>
+                            <td>{{ student.first_name }} {{ student.last_name }}</td>
+                            <td>{{ form.present }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="form-actions">
+                {{ form.submit(class="button") }}
+            </div>
+        </form>
+        <a href="{{ url_for('main.dashboard') }}" class="button">Powrót do Pulpitu</a>
+    </div>
+</body>
+</html>

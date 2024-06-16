@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='edut_post.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+        <h1>Edit Post</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.content.label }}
+                {{ form.content(rows=4, class="form-control") }}
+            </p>
+            <p>{{ form.submit(class="button", value="Dodaj wpis") }}</p>
+        </form>
+        {% endblock %}
+    </div>
+</body>
+</html>

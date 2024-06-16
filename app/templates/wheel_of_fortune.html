@@ -1,0 +1,81 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Wheel of Fortune{% endblock %}
+
+{% block content %}
+<h1>Wheel of Fortune</h1>
+<div id="wheel-container">
+    <canvas id="wheel"></canvas>
+    <button id="spin-button">Spin the Wheel</button>
+    <h2 id="result"></h2>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+<script>
+    let students = [
+        {% for student in students %}
+            { 'name': '{{ student.first_name }} {{ student.last_name }}' },
+        {% endfor %}
+    ];
+
+    let angle = 0;
+    let spinAngle = 0;
+    let spinSpeed = 0;
+    let result = document.getElementById("result");
+
+    function setup() {
+        let canvas = createCanvas(400, 400);
+        canvas.parent('wheel-container');
+        angleMode(DEGREES);
+        noLoop();
+    }
+
+    function draw() {
+        background(255);
+        translate(width / 2, height / 2);
+        rotate(angle);
+
+        let lastAngle = 0;
+        let sliceAngle = 360 / students.length;
+
+        for (let i = 0; i < students.length; i++) {
+            fill(i % 2 === 0 ? '#FF6347' : '#4682B4');
+            arc(0, 0, 300, 300, lastAngle, lastAngle + sliceAngle);
+            fill(255);
+            textAlign(CENTER, CENTER);
+            textSize(14);
+            push();
+            rotate(lastAngle + sliceAngle / 2);
+            translate(120, 0);
+            rotate(90);
+            text(students[i].name, 0, 0);
+            pop();
+            lastAngle += sliceAngle;
+        }
+
+        fill(0);
+        triangle(-10, -150, 10, -150, 0, -130);
+
+        angle += spinAngle;
+        spinAngle *= 0.97;
+
+        if (spinSpeed > 0) {
+            spinSpeed -= 0.02;
+        } else {
+            spinSpeed = 0;
+            spinAngle = 0;
+            noLoop();
+            let selected = floor(((360 - angle % 360) + 90) / sliceAngle) % students.length;
+            result.innerText = "The chosen student is: " + students[selected].name;
+        }
+    }
+
+    document.getElementById("spin-button").addEventListener("click", () => {
+        spinSpeed = random(20, 30);
+        spinAngle = spinSpeed;
+        loop();
+    });
+</script>
+{% endblock %}

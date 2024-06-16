@@ -3,19 +3,69 @@
 <head>
     <meta charset="utf-8">
     <title>Plan Lekcji</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='plan.css') }}">
 </head>
 <body>
-    <h1>Twój Plan Lekcji</h1>
-    <ul>
-        {% for day in schedule %}
-            <li>{{ day.day }}:</li>
-            <ul>
-                {% for class in day.classes %}
-                    <li>{{ class.subject }} ({{ class.time }}), sala {{ class.room }}{% if class.class %}, klasa {{ class.class }}{% endif %}</li>
+    <header class="header">
+        <div class="header-content">
+             <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <span class="title">MIB UAM</span>
+        </a>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <h1>Twój Plan Lekcji</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Godziny</th>
+                    {% for day in schedule %}
+                        <th>{{ day.day }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% set times = ["8:00-8:45", "9:00-9:45", "10:00-10:45", "11:00-11:45", "12:00-12:45"] %}
+                {% for i in range(times|length) %}
+                <tr>
+                    <td>{{ times[i] }}</td>
+                    {% for day in schedule %}
+                        <td>
+                            {% if day.classes[i] is defined %}
+                                <div class="class-item">
+                                    {% if day.classes[i].subject_id is defined %}
+                                        <a href="{{ url_for('main.attendance', subject_id=day.classes[i].subject_id) }}">
+                                            {{ day.classes[i].subject }}
+                                        </a>
+                                    {% else %}
+                                        {{ day.classes[i].subject }}
+                                    {% endif %}
+                                    <div class="class-room">{{ day.classes[i].room }}</div>
+                                    {% if day.classes[i].class %}
+                                        <div class="class-info">klasa {{ day.classes[i].class }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                                {% for lesson in day.classes %}
+                                        {{ lesson.subject }} - {{ lesson.time }} (Room: {{ lesson.room }})
+                                        {% if current_user.role == 'teacher' %}
+                                            - <a href="{{ url_for('main.attendance', lesson_id=lesson.id) }}">Sprawdź obecność</a>
+                                            - <a href="{{ url_for('main.wheel_of_fortune') }}">Koło fortuny</a>
+                                        {% endif %}
+                                {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
                 {% endfor %}
-            </ul>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('main.dashboard') }}">Powrót do Pulpitu</a>
+            </tbody>
+        </table>
+        <a href="{{ url_for('main.dashboard') }}" class="button">Powrót do Pulpitu</a>
+    </div>
 </body>
 </html>
