@@ -4,13 +4,148 @@
     <meta charset="utf-8">
     <title>Lista Obecnych Uczniów</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='attendance.css') }}">
-    <script>
-        function selectRandomStudent() {
-            var students = document.querySelectorAll('.student-name');
-            var randomIndex = Math.floor(Math.random() * students.length);
-            var selectedStudent = students[randomIndex].innerText;
-            alert('Wybrany uczeń: ' + selectedStudent);
+    <style type="text/css">
+        text {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            pointer-events: none;
         }
+        #chart {
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+        }
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 20px solid red;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        document.addEventListener("DOMContentLoaded", function() {
+            var presentStudents = {{ present_students | tojson }};
+            var data = presentStudents.map((student, index) => ({
+                label: student.first_name + ' ' + student.last_name,
+                value: 1,
+                student: student.first_name + ' ' + student.last_name
+            }));
+
+            var padding = {top: 20, right: 40, bottom: 0, left: 0},
+                w = 500 - padding.left - padding.right,
+                h = 500 - padding.top - padding.bottom,
+                r = Math.min(w, h) / 2,
+                rotation = 0,
+                oldrotation = 0,
+                picked = 100000,
+                oldpick = [],
+                color = d3.scale.category20();
+
+            var svg = d3.select('#chart')
+                .append("svg")
+                .data([data])
+                .attr("width", w + padding.left + padding.right)
+                .attr("height", h + padding.top + padding.bottom);
+
+            var container = svg.append("g")
+                .attr("class", "chartholder")
+                .attr("transform", "translate(" + (w / 2 + padding.left) + "," + (h / 2 + padding.top) + ")");
+
+            var vis = container.append("g");
+
+            var pie = d3.layout.pie().sort(null).value(function(d) { return 1; });
+
+            var arc = d3.svg.arc().outerRadius(r);
+
+            var arcs = vis.selectAll("g.slice")
+                .data(pie)
+                .enter()
+                .append("g")
+                .attr("class", "slice");
+
+            arcs.append("path")
+                .attr("fill", function(d, i) { return color(i); })
+                .attr("d", function(d) { return arc(d); });
+
+            arcs.append("text").attr("transform", function(d) {
+                    d.innerRadius = 0;
+                    d.outerRadius = r;
+                    d.angle = (d.startAngle + d.endAngle) / 2;
+                    return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius - 10) + ")";
+                })
+                .attr("text-anchor", "end")
+                .text(function(d, i) {
+                    return data[i].label;
+                });
+
+            container.on("click", spin);
+
+            function spin(d) {
+                container.on("click", null);
+
+                if (oldpick.length == data.length) {
+                    container.on("click", null);
+                    return;
+                }
+
+                var ps = 360 / data.length,
+                    rng = Math.floor((Math.random() * 1440) + 360);
+
+                rotation = (Math.round(rng / ps) * ps);
+                picked = Math.round(data.length - (rotation % 360) / ps);
+                picked = picked >= data.length ? (picked % data.length) : picked;
+
+                if (oldpick.indexOf(picked) !== -1) {
+                    d3.select(this).call(spin);
+                    return;
+                } else {
+                    oldpick.push(picked);
+                }
+
+                rotation += 90 - Math.round(ps / 2);
+
+                vis.transition()
+                    .duration(3000)
+                    .attrTween("transform", rotTween)
+                    .each("end", function() {
+                        d3.select("#question h1").text(data[picked].student);
+                        oldrotation = rotation;
+                        container.on("click", spin);
+                    });
+            }
+
+            svg.append("g")
+                .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h / 2) + padding.top) + ")")
+                .append("path")
+                .attr("d", "M-" + (r * .15) + ",0L0," + (r * .05) + "L0,-" + (r * .05) + "Z")
+                .style({ "fill": "black" });
+
+            container.append("circle")
+                .attr("cx", 0)
+                .attr("cy", 0)
+                .attr("r", 60)
+                .style({ "fill": "white", "cursor": "pointer" });
+
+            container.append("text")
+                .attr("x", 0)
+                .attr("y", 15)
+                .attr("text-anchor", "middle")
+                .text("SPIN")
+                .style({ "font-weight": "bold", "font-size": "30px" });
+
+            function rotTween(to) {
+                var i = d3.interpolate(oldrotation % 360, rotation);
+                return function(t) {
+                    return "rotate(" + i(t) + ")";
+                };
+            }
+        });
     </script>
 </head>
 <body>
@@ -26,14 +161,13 @@
         <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
     </header>
     <div class="container">
-        <h1>Lista Obecnych Uczniów</h1>
-        <ul>
-            {% for student in present_students %}
-                <li class="student-name">{{ student.first_name }} {{ student.last_name }}</li>
-            {% endfor %}
-        </ul>
-        <button class="button" onclick="selectRandomStudent()">Wylosuj Ucznia do Odpowiedzi</button>
+        <h1>Do odpowiedzi idzie...</h1>
+        <div class="wheel-container">
+            <div id="chart"></div>
+            <div class="arrow"></div>
+        </div>
         <a href="{{ url_for('main.dashboard') }}" class="button">Powrót do Pulpitu</a>
     </div>
+    <div id="question"><h1></h1></div>
 </body>
 </html>

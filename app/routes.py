@@ -6,10 +6,10 @@ from app.forms import LoginForm, TopicForm, PostForm, AttendanceForm
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 import logging
-from app.forms import AttendanceForm
-from datetime import datetime
 import random
 
+def generate_random_color():
+    return "#%06x" % random.randint(0, 0xFFFFFF)
 
 
 bp = Blueprint('main', __name__)
@@ -32,6 +32,8 @@ def attendance(lesson_id):
             is_present = 'students-{}-present'.format(i) in request.form
             attendance = Attendance(date=date, student_id=student.id, present=is_present)
             db.session.add(attendance)
+            if is_present:
+                present_students.append({'first_name': student.first_name, 'last_name': student.last_name})
         db.session.commit()
         
         flash('Attendance recorded successfully.')
@@ -42,61 +44,8 @@ def attendance(lesson_id):
         form.students.pop_entry()
     for student in students:
         form.students.append_entry()
-    
-    return render_template('attendance.html', form=form, students=students, zip=zip)
-
-
-
-
-
-@bp.route('/wheel_of_fortune', methods=['GET', 'POST'])
-@login_required
-def wheel_of_fortune():
-    date = datetime.utcnow().date()
-    present_students = Student.query.join(Attendance).filter(Attendance.date == date, Attendance.present == True).all()
-    selected_student = None
-    return render_template('wheel_of_fortune.html', students=present_students)
-
-
-
-@bp.route('/')
-def index():
-    return redirect(url_for('main.login'))
-
-@bp.route('/attendance/<int:subject_id>', methods=['GET', 'POST'])
-@login_required
-def attendance(subject_id):
-    form = AttendanceForm()
-    students = Student.query.all()
-    subject = Subject.query.get(subject_id)
-
-    if request.method == 'POST':
-        date = datetime.utcnow().date()
-
-        # Remove existing attendance records for the day
-        Attendance.query.filter_by(date=date).delete()
-        db.session.commit()
-
-        present_students = []
-
-        # Process the form
-        for i, student in enumerate(students):
-            is_present = 'students-{}-present'.format(i) in request.form
-            attendance = Attendance(date=date, student_id=student.id, present=is_present)
-            db.session.add(attendance)
-            if is_present:
-                present_students.append(student)
-        db.session.commit()
-
-        return render_template('attendance_results.html', present_students=present_students)
-
-    while len(form.students) > 0:
-        form.students.pop_entry()
-    for student in students:
-        form.students.append_entry()
 
     return render_template('attendance.html', form=form, students=students, subject=subject, zip=zip)
-
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
