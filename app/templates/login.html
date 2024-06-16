@@ -12,31 +12,24 @@
         <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo" class="logo">
     </div>
     <div class="container">
-        <h1>Login</h1>
+        <h1>Panel logowania</h1>
         <form method="POST">
             {{ form.hidden_tag() }}
             <div>
-                {{ form.email.label }}<br>
+                <label>Nazwa użytkownia</label><br>
                 {{ form.email(class="form-input", size=32) }}<br>
                 {{ form.email.errors if form.email.errors else "" }}
             </div>
             <div>
-                {{ form.password.label }}<br>
+                <label>Hasło</label><br>
                 {{ form.password(class="form-input", size=32) }}<br>
                 {{ form.password.errors if form.password.errors else "" }}
             </div>
             <div>
-                {{ form.submit(class="button") }}
+                {{ form.submit(class="button", value="Zaloguj") }}
             </div>
         </form>
     </div>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-warning">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-    {% endblock %}
+  {% endblock %}
 </body>
 </html>

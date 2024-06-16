@@ -1,21 +1,35 @@
-{% extends "dashboard.html" %}
-
-{% block content %}
-<h1>Edit Topic</h1>
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    <div>
-        {{ form.title.label }}<br>
-        {{ form.title(size=32) }}<br>
-        {{ form.title.errors }}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Topic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='edit_topic.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+        <h1>Edytuj temat</h1>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div>
+                <label>Tytuł</label><br>
+                {{ form.title(size=32, class="form-control") }}<br>
+                {% for error in form.title.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div>
+                <label>Wiadomość</label><br>
+                {{ form.body(rows=4, class="form-control") }}<br>
+                {% for error in form.body.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.submit(class="button", value="Wyślij") }}
+            </div>
+        </form>
+        {% endblock %}
     </div>
-    <div>
-        {{ form.body.label }}<br>
-        {{ form.body(rows=4) }}<br>
-        {{ form.body.errors }}
-    </div>
-    <div>
-        {{ form.submit() }}
-    </div>
-</form>
-{% endblock %}
+</body>
+</html>

@@ -1,46 +1,67 @@
-{% extends "dashboard.html" %}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>{{ topic.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='posts.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+              <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo MIB UAM" class="logo">
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" style="text-decoration: none;">
+            <span class="title">MIB UAM</span>
+        </a>
+        </div>
+        <a href="{{ url_for('main.logout') }}" class="logout">Wyloguj się</a>
+    </header>
+    <div class="container">
+        <div class="topic-panel">
+            <h1>{{ topic.title }}</h1>
+            <p>{{ topic.body }}</p>
+            <p class="topic-info">Created by {{ 'Anonymous' if topic.is_anonymous else topic.user.username }} on {{ topic.date }}</p>
+        </div>
 
-{% block title %}{{ topic.title }}{% endblock %}
-
-{% block content %}
-<h1>{{ topic.title }}</h1>
-<p>{{ topic.body }}</p>
-<p>Created by {{ 'Anonymous' if topic.is_anonymous else topic.user.username }} on {{ topic.date }}</p>
-
-<h2>Posts</h2>
-<ul>
-    {% for post in posts %}
-        <li>
-            <p>{{ post.content }}</p>
-            <p>Posted by  {{ 'Anonymous' if post.is_anonymous else post.user.username }} on {{ post.date }}</p>
-             <a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a>
-        <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="post">
-            <button type="submit">Delete</button>
-        </form>
-        </li>
-    {% endfor %}
-</ul>
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-warning">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-
-
-{% if current_user.is_authenticated %}
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.content.label }}<br>
-            {{ form.content(rows=5) }}<br>
-            {{ form.content.errors }}
-        </p>
-        <p>{{ form.anonymous.label }}: {{ form.anonymous() }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
-
-{% endif %}
-{% endblock %}
+        <h2>Komentarze</h2>
+        <ul class="posts-list">
+            {% for post in posts %}
+                <li class="post-item">
+                    <p>{{ post.content }}</p>
+                    <p class="post-info">Posted by {{ 'Anonymous' if post.is_anonymous else post.user.username }} on {{ post.date }}</p>
+                    <div class="post-actions">
+                        <a href="{{ url_for('main.edit_post', post_id=post.id) }}" class="small-button">Edytuj</a>
+                        <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="post" class="inline-form">
+                            <button type="submit" class="small-button">Usuń</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if current_user.is_authenticated %}
+            <div class="post-form-panel">
+                <h1>Dodaj Nowy Post</h1>
+                <form method="POST" class="post-form">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <label>Treść wiadomości</label>
+                        {{ form.content(rows=5, class="form-control") }}
+                        {% for error in form.content.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label>Dodaj anonimowo</label>
+                        {{ form.anonymous(class="form-check-input") }}
+                    </div>
+                    <div class="form-group form-actions">
+                        {{ form.submit(class="button", value="Dodaj wpis") }}
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
