@@ -1,103 +1,165 @@
-/* posts.css */
-.topic-panel {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    width: 80%;
-    max-width: 800px;
-    text-align: center;
-}
+/* static/posts.css */
 
-.topic-info {
-    color: #555;
-    font-size: 14px;
-}
-
-.posts-list {
-    list-style-type: none;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
     padding: 0;
-    margin: 20px 0;
 }
 
-.post-item {
+.header {
+    background-color: #4a148c;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logout {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.post-container {
+    max-width: 800px;
+    margin: 50px auto;
     background-color: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-title {
+    color: #4a148c;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.post-info {
-    color: #555;
+.post-body {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333333;
+    background-color: #f3e5f5;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.post-meta {
     font-size: 14px;
-}
-
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.small-button {
-    background-color: #4b0082;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-}
-
-.small-button:hover {
-    background-color: #8a2be2;
-}
-
-.post-form-panel {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    width: 80%;
-    max-width: 800px;
+    color: #666666;
+    margin-bottom: 20px;
     text-align: center;
+}
+
+.comments-title {
+    color: #4a148c;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.comments-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-item {
+    background-color: #f3e5f5;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.comment-content {
+    font-size: 16px;
+}
+
+.comment-meta {
+    font-size: 14px;
+    color: #666666;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
 }
 
 .form-group {
-    margin-bottom: 20px;
-    width: 100%;
+    margin-bottom: 15px;
+}
+
+.form-label {
+    font-size: 16px;
+    color: #4a148c;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .form-control {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     font-size: 16px;
+}
+
+.form-textarea {
+    height: auto;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-check-label {
+    font-size: 16px;
+    color: #4a148c;
 }
 
 .error {
     color: red;
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 5px;
     display: block;
 }
 
 .button {
-    background-color: #4b0082;
+    background-color: #4a148c;
     color: white;
     padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
     border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
 }
 
 .button:hover {
-    background-color: #8a2be2;
+    background-color: #7b1fa2;
+}
+
+.new-comment-form {
+    margin-top: 20px;
 }

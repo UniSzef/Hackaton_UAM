@@ -51,7 +51,6 @@ class Student(db.Model):
     first_name = db.Column(db.String(64), nullable=False)
     last_name = db.Column(db.String(64), nullable=False)
     grades = db.relationship('Grade', backref='student', lazy='dynamic')
-    # Dodajemy relację z modelem Attendance
     attendance = db.relationship('Attendance', backref='student', lazy='dynamic')
 
 class Attendance(db.Model):
